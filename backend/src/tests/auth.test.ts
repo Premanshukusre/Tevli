@@ -18,6 +18,7 @@ describe('AuthService', () => {
         name: 'Test',
         email: 'test@test.com',
         password_hash: 'hashed',
+        token_version: 1,
         created_at: new Date(),
       };
       vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser);
@@ -35,6 +36,7 @@ describe('AuthService', () => {
         name: 'Test',
         email: 'test@test.com',
         password_hash: 'hashed',
+        token_version: 1,
         created_at: new Date(),
       };
       vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser);
@@ -74,18 +76,22 @@ describe('AuthService', () => {
     });
 
     it('should change password successfully', async () => {
-      const mockUser = { id: '1', name: 'Test', email: 'test@test.com', password_hash: 'oldhash', created_at: new Date() };
+      const mockUser = { id: '1', name: 'Test', email: 'test@test.com', password_hash: 'oldhash', created_at: new Date(), token_version: 1 };
       vi.mocked(prisma.user.findUnique).mockResolvedValue(mockUser as any);
       vi.spyOn(bcrypt, 'compare').mockImplementation(async () => true);
       vi.spyOn(bcrypt, 'hash').mockImplementation(async () => 'newhash');
-      vi.mocked(prisma.user.update).mockResolvedValue(mockUser as any);
+      const updatedUser = { ...mockUser, password_hash: 'newhash', token_version: 2 };
+      vi.mocked(prisma.user.update).mockResolvedValue(updatedUser as any);
 
       const result = await AuthService.changePassword('1', { currentPassword: 'correct', newPassword: 'newpassword' });
       
       expect(result).toHaveProperty('token');
       expect(prisma.user.update).toHaveBeenCalledWith({
         where: { id: '1' },
-        data: { password_hash: 'newhash' },
+        data: { 
+          password_hash: 'newhash',
+          token_version: { increment: 1 } 
+        },
       });
     });
   });

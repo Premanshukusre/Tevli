@@ -25,11 +25,15 @@ export const requireAuth = async (req: AuthRequest, res: Response, next: NextFun
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
-      select: { id: true, email: true, name: true }
+      select: { id: true, email: true, name: true, token_version: true }
     });
 
     if (!user) {
       return res.status(401).json({ success: false, error: { message: 'User no longer exists' } });
+    }
+
+    if (user.token_version !== decoded.version) {
+      return res.status(401).json({ success: false, error: { message: 'Session expired. Please log in again.' } });
     }
 
     req.user = user;

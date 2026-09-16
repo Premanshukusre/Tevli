@@ -36,11 +36,15 @@ export const socketAuthMiddleware = async (socket: Socket, next: (err?: Error) =
 
     const user = await prisma.user.findUnique({
       where: { id: decoded.id },
-      select: { id: true, email: true, name: true }
+      select: { id: true, email: true, name: true, token_version: true }
     });
 
     if (!user) {
       return next(new Error('Authentication error: User not found'));
+    }
+
+    if (user.token_version !== decoded.version) {
+      return next(new Error('Authentication error: Session expired'));
     }
 
     socket.user = user;

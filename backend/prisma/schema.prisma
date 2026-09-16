@@ -45,6 +45,7 @@ model User {
   email            String            @unique
   password_hash    String
   name             String
+  token_version    Int               @default(1)
   created_at       DateTime          @default(now())
   
   workspaceMembers WorkspaceMember[]

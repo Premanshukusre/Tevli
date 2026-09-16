@@ -16,7 +16,7 @@ describe('TaskService Authorization', () => {
     });
 
     it('should return membership if user is authorized', async () => {
-      const mockMembership = { user_id: mockUserId, project_id: mockProjectId, role: 'MEMBER' as any, joined_at: new Date() };
+      const mockMembership = { user_id: mockUserId, project_id: mockProjectId, role: 'MEMBER' as any, joined_at: new Date(), is_starred: false, last_accessed: new Date() };
       vi.mocked(prisma.projectMember.findUnique).mockResolvedValue(mockMembership);
 
       const result = await TaskService.verifyProjectAccess(mockUserId, mockProjectId);
@@ -46,7 +46,7 @@ describe('TaskService Authorization', () => {
     it('should delete task and log activity in a transaction', async () => {
       const mockTask = { id: mockTaskId, description: null, project_id: mockProjectId, status: 'TODO' as any, title: 'Test Task', priority: 'MEDIUM' as any, due_date: null, assignee_id: null, position: 1024, created_at: new Date(), updated_at: new Date() };
       vi.mocked(prisma.task.findUnique).mockResolvedValue(mockTask);
-      vi.mocked(prisma.projectMember.findUnique).mockResolvedValue({ user_id: mockUserId, project_id: mockProjectId, role: 'MEMBER' });
+      vi.mocked(prisma.projectMember.findUnique).mockResolvedValue({ user_id: mockUserId, project_id: mockProjectId, role: 'MEMBER' as any, is_starred: false, last_accessed: new Date() });
       
       // Mock the transaction to just execute the callback
       vi.mocked(prisma.$transaction).mockImplementation(async (callback: any) => {

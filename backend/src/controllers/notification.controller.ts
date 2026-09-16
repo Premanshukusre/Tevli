@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { NotificationService } from '../services/notification.service';
+import { AuthRequest } from '../middleware/requireAuth';
 
 const notificationService = new NotificationService();
 
-export const getNotifications = async (req: Request, res: Response) => {
+export const getNotifications = async (req: AuthRequest, res: Response) => {
   try {
     const notifications = await notificationService.getNotifications(req.user!.id);
     res.json({ notifications });
@@ -12,7 +13,7 @@ export const getNotifications = async (req: Request, res: Response) => {
   }
 };
 
-export const markAsRead = async (req: Request, res: Response) => {
+export const markAsRead = async (req: AuthRequest, res: Response) => {
   try {
     await notificationService.markAsRead(req.user!.id, req.params.id);
     res.json({ success: true });
@@ -21,7 +22,7 @@ export const markAsRead = async (req: Request, res: Response) => {
   }
 };
 
-export const markAllAsRead = async (req: Request, res: Response) => {
+export const markAllAsRead = async (req: AuthRequest, res: Response) => {
   try {
     await notificationService.markAllAsRead(req.user!.id);
     res.json({ success: true });

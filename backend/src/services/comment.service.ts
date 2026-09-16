@@ -69,6 +69,9 @@ export class CommentService {
     if (!comment) throw { statusCode: 404, message: 'Comment not found' };
     if (comment.user_id !== userId) throw { statusCode: 403, message: 'Cannot edit another users comment' };
 
+    // Verify user still has access to the task/project before allowing modification
+    await TaskService.verifyTaskAccess(userId, comment.task_id);
+
     const updatedComment = await prisma.comment.update({
       where: { id: commentId },
       data: { content: data.content },
@@ -86,6 +89,9 @@ export class CommentService {
     const comment = await prisma.comment.findUnique({ where: { id: commentId }, include: { task: true } });
     if (!comment) throw { statusCode: 404, message: 'Comment not found' };
     if (comment.user_id !== userId) throw { statusCode: 403, message: 'Cannot delete another users comment' };
+
+    // Verify user still has access to the task/project before allowing deletion
+    await TaskService.verifyTaskAccess(userId, comment.task_id);
 
     await prisma.comment.delete({ where: { id: commentId } });
 

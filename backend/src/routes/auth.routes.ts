@@ -20,6 +20,6 @@ router.post('/login', authLimiter, validate(loginSchema), AuthController.login);
 router.post('/logout', AuthController.logout);
 router.get('/me', requireAuth, AuthController.getMe);
 router.put('/profile', requireAuth, validate(updateProfileSchema), AuthController.updateProfile);
-router.put('/password', requireAuth, validate(changePasswordSchema), AuthController.changePassword);
+router.put('/password', requireAuth, authLimiter, validate(changePasswordSchema), AuthController.changePassword);
 
 export default router;

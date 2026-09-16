@@ -8,15 +8,15 @@ const getSecret = () => {
   return secret;
 };
 
-export const generateToken = (userId: string): string => {
-  return jwt.sign({ id: userId }, getSecret(), {
+export const generateToken = (userId: string, tokenVersion: number = 1): string => {
+  return jwt.sign({ id: userId, version: tokenVersion }, getSecret(), {
     expiresIn: '7d',
   });
 };
 
-export const verifyToken = (token: string): { id: string } | null => {
+export const verifyToken = (token: string): { id: string, version: number } | null => {
   try {
-    const decoded = jwt.verify(token, getSecret()) as { id: string };
+    const decoded = jwt.verify(token, getSecret()) as { id: string, version: number };
     return decoded;
   } catch (error) {
     return null;

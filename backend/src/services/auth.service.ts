@@ -27,10 +27,11 @@ export class AuthService {
         name: true,
         email: true,
         created_at: true,
+        token_version: true,
       },
     });
 
-    const token = generateToken(user.id);
+    const token = generateToken(user.id, user.token_version);
     return { user, token };
   }
 
@@ -50,10 +51,10 @@ export class AuthService {
       throw { statusCode: 401, message: 'Invalid credentials' };
     }
 
-    const token = generateToken(user.id);
+    const token = generateToken(user.id, user.token_version);
     
-    // Omit password hash from response
-    const { password_hash, ...safeUser } = user;
+    // Omit password hash and token_version from response
+    const { password_hash, token_version, ...safeUser } = user;
     
     return { user: safeUser, token };
   }
@@ -109,12 +110,15 @@ export class AuthService {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(data.newPassword, salt);
 
-    await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: { id: userId },
-      data: { password_hash: hashedPassword },
+      data: { 
+        password_hash: hashedPassword,
+        token_version: { increment: 1 }
+      },
     });
 
-    const token = generateToken(userId);
+    const token = generateToken(userId, updatedUser.token_version);
     return { token };
   }
 }
