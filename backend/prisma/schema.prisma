@@ -1,0 +1,165 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum WorkspaceMemberRole {
+  ADMIN
+  MEMBER
+}
+
+enum ProjectMemberRole {
+  ADMIN
+  MEMBER
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum ActivityAction {
+  PROJECT_CREATED
+  TASK_CREATED
+  TASK_UPDATED
+  TASK_MOVED
+  TASK_ASSIGNED
+  COMMENT_ADDED
+  MEMBER_ADDED
+  TASK_DELETED
+}
+
+model User {
+  id               String            @id @default(uuid())
+  email            String            @unique
+  password_hash    String
+  name             String
+  created_at       DateTime          @default(now())
+  
+  workspaceMembers WorkspaceMember[]
+  projectMembers   ProjectMember[]
+  tasks            Task[]            @relation("TaskAssignee")
+  comments         Comment[]
+  activityLogs     ActivityLog[]
+  notifications    Notification[]    @relation("NotificationRecipient")
+  actions          Notification[]    @relation("NotificationActor")
+}
+
+model Workspace {
+  id               String            @id @default(uuid())
+  name             String
+  created_at       DateTime          @default(now())
+  
+  members          WorkspaceMember[]
+  projects         Project[]
+}
+
+model WorkspaceMember {
+  user_id      String
+  workspace_id String
+  role         WorkspaceMemberRole
+  
+  user         User      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  workspace    Workspace @relation(fields: [workspace_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, workspace_id])
+}
+
+model Project {
+  id           String          @id @default(uuid())
+  workspace_id String
+  name         String
+  created_at   DateTime        @default(now())
+  
+  workspace    Workspace       @relation(fields: [workspace_id], references: [id], onDelete: Cascade)
+  members      ProjectMember[]
+  tasks        Task[]
+  activityLogs ActivityLog[]
+}
+
+model ProjectMember {
+  user_id       String
+  project_id    String
+  role          ProjectMemberRole
+  is_starred    Boolean           @default(false)
+  last_accessed DateTime          @default(now())
+  
+  user       User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  project    Project @relation(fields: [project_id], references: [id], onDelete: Cascade)
+
+  @@id([user_id, project_id])
+}
+
+model Task {
+  id          String       @id @default(uuid())
+  project_id  String
+  title       String
+  description String?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+  position    Float        @default(0)
+  due_date    DateTime?
+  assignee_id String?
+  
+  project     Project      @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  assignee    User?        @relation("TaskAssignee", fields: [assignee_id], references: [id], onDelete: SetNull)
+  comments    Comment[]
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  task_id    String
+  user_id    String
+  content    String
+  created_at DateTime @default(now())
+  
+  task       Task     @relation(fields: [task_id], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model ActivityLog {
+  id          String         @id @default(uuid())
+  project_id  String
+  user_id     String
+  action      ActivityAction
+  entity_type String
+  entity_id   String
+  details     String?        // Small sensible change to store context like 'TODO -> IN_PROGRESS'
+  created_at  DateTime       @default(now())
+  
+  project     Project        @relation(fields: [project_id], references: [id], onDelete: Cascade)
+  user        User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  COMMENT_ADDED
+  MEMBER_ADDED
+}
+
+model Notification {
+  id          String           @id @default(uuid())
+  user_id     String           // The recipient
+  actor_id    String           // The person who performed the action
+  type        NotificationType
+  entity_type String           // e.g., 'Task', 'Workspace'
+  entity_id   String
+  project_id  String?          // Used for deep linking
+  task_id     String?          // Used for deep linking
+  read        Boolean          @default(false)
+  created_at  DateTime         @default(now())
+  
+  user        User             @relation("NotificationRecipient", fields: [user_id], references: [id], onDelete: Cascade)
+  actor       User             @relation("NotificationActor", fields: [actor_id], references: [id], onDelete: Cascade)
+}

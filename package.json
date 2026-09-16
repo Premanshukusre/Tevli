@@ -1,0 +1,10 @@
+{
+  "name": "tevli-root",
+  "private": true,
+  "scripts": {
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev": "npm run dev:backend & npm run dev:frontend",
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix backend"
+  }
+}
