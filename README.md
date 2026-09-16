@@ -1,437 +1,654 @@
-# Tevli
 
-> A real-time collaborative project management platform for teams.
+# 🚀 Tevli
 
-Tevli is a full-stack collaborative project management application designed to help teams organize work across workspaces, projects, tasks, comments, activity, and notifications.
+<p align="center">
+  <strong>Real-time collaborative project management for modern teams.</strong>
+</p>
 
-The application is built with a production-minded architecture while keeping the codebase understandable, maintainable, and suitable for a portfolio-level software engineering project.
+<p align="center">
+  <a href="https://github.com/Premanshukusre/Tevli">
+    <img src="https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github" alt="GitHub Repository" />
+  </a>
+  <img src="https://img.shields.io/badge/Status-V1.1%20Complete-10B981?style=for-the-badge" alt="Project Status" />
+  <img src="https://img.shields.io/badge/Frontend-React%20%2B%20TypeScript-61DAFB?style=for-the-badge&logo=react" alt="Frontend" />
+  <img src="https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-339933?style=for-the-badge&logo=node.js" alt="Backend" />
+  <img src="https://img.shields.io/badge/Database-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql" alt="PostgreSQL" />
+</p>
 
----
-
-## Table of Contents
-
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Product Highlights](#product-highlights)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Core Data Model](#core-data-model)
-- [Authentication & Authorization](#authentication--authorization)
-- [Real-Time Collaboration](#real-time-collaboration)
-- [Security](#security)
-- [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [Environment Variables](#environment-variables)
-- [Database Setup](#database-setup)
-- [Running the Application](#running-the-application)
-- [Testing](#testing)
-- [Production Build](#production-build)
-- [Quality Assurance](#quality-assurance)
-- [Current Status](#current-status)
-- [Known Limitation](#known-limitation)
-- [Roadmap](#roadmap)
-- [Engineering Principles](#engineering-principles)
-- [Why Tevli](#why-tevli)
-- [Author](#author)
-- [License](#license)
+<p align="center">
+  <img src="https://img.shields.io/badge/Prisma-5.22-2D3748?style=flat-square&logo=prisma" alt="Prisma" />
+  <img src="https://img.shields.io/badge/Socket.IO-Real--Time-010101?style=flat-square&logo=socket.io" alt="Socket.IO" />
+  <img src="https://img.shields.io/badge/Tailwind%20CSS-UI-06B6D4?style=flat-square&logo=tailwindcss" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Vitest-Testing-6E9F18?style=flat-square&logo=vitest" alt="Vitest" />
+</p>
 
 ---
 
-## Overview
+## ✨ What is Tevli?
 
-Tevli is a web-based collaborative project management platform built around the idea of making team project management simple, structured, and real-time.
+**Tevli** is a full-stack, real-time collaborative project management platform built for teams that need a structured way to organize projects, tasks, communication, and progress.
 
-Users can create workspaces, organize projects, manage team membership, create and assign tasks, collaborate through comments, track project activity, and receive real-time notifications.
+It combines:
 
-The application follows a REST-first architecture where the backend and PostgreSQL database remain the source of truth. Socket.IO is used to synchronize relevant changes between connected users without requiring manual page refreshes.
+- 🏢 **Workspaces** for team organization
+- 📁 **Projects** for structured work
+- 📋 **Kanban tasks** for execution
+- 💬 **Comments** for collaboration
+- 📝 **Activity history** for visibility
+- 🔔 **Real-time notifications** for important events
+- ⭐ **Starred projects** for quick access
+- 🕘 **Recent projects** for fast navigation
+- 👥 **Multi-user collaboration** with role-based access control
 
-### Core Product Areas
-
-- Workspaces
-- Projects
-- Members and permissions
-- Kanban task management
-- Comments
-- Activity history
-- Notifications
-- Recent projects
-- Starred projects
-- Account settings
-- Real-time collaboration
+The application is designed with a **production-minded engineering approach** while keeping the architecture understandable, maintainable, and suitable for a software engineering portfolio project.
 
 ---
 
-## Key Features
+# 🎯 Product Vision
 
-### Authentication
+The goal of Tevli is simple:
 
-- Email and password authentication
-- Secure password hashing
-- JWT-based sessions
-- HTTP-only authentication cookies
-- Protected application routes
-- Logout and session handling
-- Secure password change flow
+> **Give teams one focused place to organize work, collaborate in real time, and understand what is happening across their projects.**
 
-### Workspace Management
+Instead of treating project management as only a task board, Tevli brings together:
 
-- Create workspaces
-- Rename workspaces
-- Delete workspaces
-- Workspace administration
-- Workspace member management
-- Workspace roles
-- Admin protection rules
-- Safe workspace deletion and dependent-data cleanup
+```text
+Workspace
+    ↓
+Projects
+    ↓
+Tasks
+    ├── Assignment
+    ├── Due Dates
+    ├── Comments
+    └── Activity
+            ↓
+      Notifications
+````
 
-### Project Management
-
-- Create projects
-- Rename projects
-- Delete projects
-- Project member management
-- Project-level authorization
-- Project activity
-- Recent project tracking
-- Starred project tracking
-
-### Kanban & Task Management
-
-- Create tasks
-- Edit tasks
-- Delete tasks
-- Move tasks between statuses
-- Assign tasks to members
-- Add due dates
-- Add descriptions
-- Open detailed task views
-- Track task activity
-- View task history
-
-### Comments & Collaboration
-
-- Add comments
-- Edit comments
-- Delete comments
-- Real-time comment synchronization
-- Real-time task synchronization
-- Activity updates across connected users
-
-### Notifications
-
-- Real-time notification updates
-- Unread notification count
-- Task assignment notifications
-- Comment-related notifications
-- Mark notifications as read
-- Direct notification deep links
-- Automatic task opening from relevant notifications
-- Graceful handling of deleted or inaccessible resources
-
-### Navigation & Productivity
-
-- Responsive application shell
-- Resizable sidebar
-- Collapsible sidebar
-- Workspace switcher
-- Global Create menu
-- My Tasks
-- Recent projects
-- Starred projects
-- Notifications center
-- Account Settings
-- Help drawer
-- Context-aware creation flows
-- Deep-linked task navigation
-
-### Responsive Experience
-
-Tevli is designed to work across:
-
-- Desktop
-- Laptop
-- Tablet
-- Mobile
-
-Responsive behavior includes:
-
-- Mobile navigation drawer
-- Responsive dialogs
-- Responsive task views
-- Adaptive workspace/project layouts
-- Accessible mobile navigation
+This creates a connected workflow rather than a collection of unrelated screens.
 
 ---
 
-## Product Highlights
+# 🧩 Core Features
 
-### Real-Time Collaboration
+## 🔐 Authentication & Account Management
 
-Multiple users can work inside the same project while seeing relevant changes without manually refreshing the page.
+Tevli provides a complete authenticated application experience.
+
+* Email/password authentication
+* Password hashing with bcrypt
+* JWT-based authentication
+* HTTP-only session cookies
+* Protected frontend routes
+* Protected backend routes
+* Logout/session handling
+* Password change
+* Account Settings
+* Profile name updates
+
+---
+
+## 🏢 Workspace Management
+
+A workspace represents a team's larger working environment.
+
+### Workspace capabilities
+
+* Create workspaces
+* Rename workspaces
+* Delete workspaces
+* Workspace administration
+* Workspace member management
+* Admin/member roles
+* Protection against removing the final administrator
+* Safe workspace deletion and dependent-data cleanup
+
+### Workspace concept
+
+```text
+Workspace
+├── Members
+├── Projects
+├── Settings
+└── Activity
+```
+
+---
+
+## 📁 Project Management
+
+Projects organize work within a workspace.
+
+### Project capabilities
+
+* Create projects
+* Rename projects
+* Delete projects
+* Manage project members
+* Project-level authorization
+* Project activity
+* Star projects
+* Recent project tracking
+
+```text
+Workspace
+├── Project A
+├── Project B
+└── Project C
+```
+
+---
+
+## 📋 Kanban Task Management
+
+Tasks are the main units of work inside projects.
+
+### Task capabilities
+
+* Create tasks
+* Edit tasks
+* Delete tasks
+* Move tasks between statuses
+* Assign tasks to users
+* Add due dates
+* Add descriptions
+* Open detailed task views
+* View task history
+* Track task activity
+
+### Kanban workflow
+
+```text
+┌──────────────┐
+│     TODO     │
+├──────────────┤
+│ Task A       │
+│ Task B       │
+└──────────────┘
+
+┌──────────────┐
+│ IN PROGRESS  │
+├──────────────┤
+│ Task C       │
+└──────────────┘
+
+┌──────────────┐
+│     DONE     │
+├──────────────┤
+│ Task D       │
+└──────────────┘
+```
+
+---
+
+## 💬 Comments & Activity
+
+Teams can collaborate directly inside tasks.
+
+### Comments
+
+* Add comments
+* Edit comments
+* Delete comments
+* Real-time comment synchronization
+
+### Activity
+
+Tevli records meaningful project actions such as:
+
+* Task creation
+* Task movement
+* Assignment
+* Task updates
+* Task deletion
+* Comments
+
+This provides a history of what happened inside a project.
+
+---
+
+## 🔔 Real-Time Notifications
+
+Notifications keep users informed about relevant changes.
+
+Supported notification scenarios include:
+
+* Task assignments
+* Comment-related events
+* Unread notification count
+* Read/unread state
+* Real-time notification updates
+* Direct notification navigation
+
+### Notification deep linking
+
+When a notification targets a specific task:
+
+```text
+Notification
+     ↓
+Project opens
+     ↓
+Task is identified
+     ↓
+Task details open automatically
+```
+
+This removes unnecessary navigation steps.
+
+---
+
+## ⭐ Starred Projects
+
+Users can star projects they access frequently.
+
+Starred state is user-specific.
 
 For example:
 
 ```text
-User A creates a task
-        ↓
-Backend persists the task
-        ↓
-Socket.IO emits task event
-        ↓
-User B receives the event
-        ↓
-User B's interface updates
+User A → Project X → ⭐
+User B → Project X → ☆
+```
 
-The same approach is used for tasks, comments, activity, and notifications.
+One user's starred state does not automatically affect another user's view.
 
-User-Scoped Recent & Starred Projects
+---
 
-Recent and starred projects are associated with the authenticated user's project membership.
+## 🕘 Recent Projects
 
-This means:
+Tevli tracks recently accessed projects to make navigation faster.
 
-User A can star a project
-User B does not automatically inherit User A's starred state
-Removing project membership naturally removes the associated user/project preference
-Notification Deep Linking
+Recent projects are also user-specific and persist through the backend.
 
-Notifications contain explicit project and task targets where appropriate.
+---
 
-For example:
+## 🧭 Productivity & Navigation
 
-Task assigned
-     ↓
-Notification clicked
-     ↓
-Project opens
-     ↓
-Task detail opens automatically
+Tevli includes a modern application shell designed for fast navigation.
 
-This provides a direct workflow from an event to the relevant work item.
+### Navigation features
 
-Tech Stack
-Frontend
-React
-TypeScript
-Vite
-Tailwind CSS
-React Router
-TanStack Query
-Backend
-Node.js
-Express
-TypeScript
-Socket.IO
-Zod
-bcrypt
-JSON Web Tokens
-Database
-PostgreSQL
-Prisma ORM
-Testing
-Vitest
-Vitest Mock Extended
-Backend unit/integration-oriented tests
-Browser-based black-box QA
-Security
-HTTP-only cookies
-JWT authentication
-CSRF protection
-CORS
-Helmet
-Rate limiting
-Zod validation
-Resource-level authorization
-Socket.IO authentication and room authorization
-Architecture
+* Workspace switcher
+* Resizable sidebar
+* Collapsible sidebar
+* Home
+* My Tasks
+* Recent
+* Starred
+* Notifications
+* Global Create
+* Profile menu
+* Account Settings
+* Help drawer
 
-Tevli uses a modular monolith architecture.
+---
 
-                         ┌──────────────────────────┐
-                         │       Tevli Frontend     │
-                         │ React + TypeScript +     │
-                         │ Vite + Tailwind CSS      │
-                         └────────────┬─────────────┘
-                                      │
-                         ┌────────────┴─────────────┐
-                         │                          │
-                     REST API                  Socket.IO
-                         │                          │
-                         ▼                          ▼
-              ┌────────────────────┐      ┌───────────────────┐
-              │    Express API     │      │ Project Rooms    │
-              │ Authentication     │      │ Real-Time Events │
-              │ Authorization      │      │ & Synchronization│
-              │ Controllers        │      └───────────────────┘
-              │ Services           │
-              │ Validation         │
-              └──────────┬─────────┘
-                         │
-                       Prisma
-                         │
-                         ▼
-                ┌──────────────────┐
-                │   PostgreSQL     │
-                │ Source of Truth  │
-                └──────────────────┘
-Request Flow
-Client
-   │
-   │ REST request
-   ▼
+## 🆘 Built-in Help
+
+Tevli includes a lightweight help drawer containing practical guidance for:
+
+* Workspaces & Projects
+* Tasks & Kanban
+* Collaboration
+* Keyboard shortcuts
+
+It can be opened directly from the navigation bar.
+
+---
+
+# 👥 Multi-User Collaboration
+
+Tevli is designed for **multiple users**, not a fixed two-user demo.
+
+Users can have different levels of access based on workspace and project membership.
+
+Example:
+
+```text
+Workspace
+│
+├── Admin
+│
+├── Member A
+│
+├── Member B
+│
+└── Member C
+```
+
+Project membership is separately controlled where appropriate.
+
+This allows teams to collaborate without giving every user unrestricted access.
+
+---
+
+# ⚡ Real-Time Collaboration Architecture
+
+Tevli uses **Socket.IO** for real-time synchronization.
+
+The important architectural rule is:
+
+> **REST + PostgreSQL are the source of truth. Socket.IO is the synchronization layer.**
+
+### Example
+
+```text
+User A
+  │
+  │ Create Task
+  ▼
 Express API
-   │
-   ├── Authentication
-   ├── Authorization
-   ├── Input validation
-   ├── Business logic
-   │
-   ▼
-Prisma
-   │
-   ▼
+  │
+  ├── Validate
+  ├── Authorize
+  ├── Persist
+  ▼
 PostgreSQL
-   │
-   └── Persistent state
+  │
+  └── Success
+        │
+        ▼
+   Socket.IO Event
+        │
+        ▼
+Project Room
+        │
+        ▼
+User B
+```
 
-Successful mutation
-   │
-   ▼
+This prevents WebSocket state from becoming an independent source of truth.
+
+---
+
+# 🏗️ Architecture
+
+Tevli follows a **modular monolith** architecture.
+
+```text
+                         ┌─────────────────────────────┐
+                         │        Tevli Frontend       │
+                         │                             │
+                         │ React                       │
+                         │ TypeScript                  │
+                         │ Vite                        │
+                         │ Tailwind CSS                │
+                         │ React Router                │
+                         │ TanStack Query              │
+                         └──────────────┬──────────────┘
+                                        │
+                           ┌────────────┴────────────┐
+                           │                         │
+                           │ REST API                │ Socket.IO
+                           │                         │
+                           ▼                         ▼
+                 ┌──────────────────────┐   ┌─────────────────────┐
+                 │    Express Server    │   │   Project Rooms    │
+                 │                      │   │                     │
+                 │ Authentication       │   │ Real-time Events    │
+                 │ Authorization        │   │ Synchronization     │
+                 │ Validation           │   │ Notifications       │
+                 │ Controllers          │   └─────────────────────┘
+                 │ Services             │
+                 └──────────┬───────────┘
+                            │
+                          Prisma
+                            │
+                            ▼
+                   ┌───────────────────┐
+                   │    PostgreSQL     │
+                   │  Source of Truth  │
+                   └───────────────────┘
+```
+
+---
+
+# 🔄 Request Flow
+
+For a normal mutation:
+
+```text
+Client
+  │
+  │ HTTP request
+  ▼
+Express
+  │
+  ├── Authentication
+  ├── Authorization
+  ├── Validation
+  └── Business Logic
+          │
+          ▼
+       Prisma
+          │
+          ▼
+     PostgreSQL
+```
+
+After a successful mutation:
+
+```text
+Database mutation
+       ↓
 Socket.IO event
-   │
-   ▼
+       ↓
 Relevant project room
-   │
-   ▼
+       ↓
 Connected clients
-Architectural Principle
+       ↓
+React Query cache/state update
+```
 
-REST and PostgreSQL are the source of truth.
+---
 
-Socket.IO is used for real-time synchronization and notifications rather than replacing persistent database operations.
+# 🗃️ Core Data Model
 
-Core Data Model
+The primary entities are:
 
-The main entities in Tevli are:
+| Entity            | Purpose                                                    |
+| ----------------- | ---------------------------------------------------------- |
+| `User`            | Authentication and user identity                           |
+| `Workspace`       | Top-level team organization                                |
+| `WorkspaceMember` | Workspace membership and roles                             |
+| `Project`         | Work container inside a workspace                          |
+| `ProjectMember`   | Project membership, roles, and user-specific project state |
+| `Task`            | Unit of work                                               |
+| `Comment`         | Task discussion                                            |
+| `ActivityLog`     | Project/task activity history                              |
+| `Notification`    | User-facing event information                              |
 
+### Relationship overview
+
+```text
 User
  │
  ├── WorkspaceMember
- │        │
- │        └── Workspace
- │               │
- │               └── Project
- │                      │
- │                      ├── ProjectMember
- │                      ├── Task
- │                      │    ├── Comment
- │                      │    └── Activity
- │                      │
- │                      └── Notifications
+ │       │
+ │       └── Workspace
+ │              │
+ │              └── Project
+ │                     │
+ │                     ├── ProjectMember
+ │                     ├── Task
+ │                     │    ├── Comment
+ │                     │    └── Activity
+ │                     │
+ │                     └── Notifications
  │
- └── User-specific Project Preferences
+ └── User-specific Project State
         ├── Recent
         └── Starred
-Major Entities
-Entity	Purpose
-User	Authentication and user identity
-Workspace	Top-level organization
-WorkspaceMember	Workspace membership and role
-Project	Work container inside a workspace
-ProjectMember	Project membership, role, and project-specific user state
-Task	Unit of work
-Comment	Discussion attached to a task
-ActivityLog	Project/task activity history
-Notification	User-facing event and notification record
-Authentication & Authorization
+```
 
-Tevli uses authentication and authorization at multiple levels.
+---
 
-Authentication
+# 🔒 Authentication & Authorization
+
+Tevli uses multiple authorization boundaries.
+
+## Authentication
 
 Protected routes require a valid authenticated session.
 
-The authentication architecture uses:
+Authentication uses:
 
-JWT
-HTTP-only cookies
-Password hashing
-Protected backend routes
-Workspace Authorization
+* JWT
+* HTTP-only cookies
+* Password hashing
+* Protected backend routes
 
-Workspace access is determined by workspace membership.
+## Workspace Authorization
 
-Workspace roles include:
+Workspace access depends on workspace membership.
 
-ADMIN
-MEMBER
+Roles:
 
-Administrative operations are restricted appropriately.
+* `ADMIN`
+* `MEMBER`
 
-Project Authorization
+Administrative operations are protected accordingly.
 
-Project access is controlled by project membership.
+## Project Authorization
 
-Project-level administrative operations require appropriate privileges.
+Project access depends on project membership.
 
-Server-Side Enforcement
+Project administration is separately controlled.
 
-Authorization is enforced on the backend.
+## Important Security Principle
 
-Frontend visibility is treated as a UX feature, not as a security boundary.
+Frontend visibility is **not** considered a security boundary.
 
-A user who attempts to directly call a protected endpoint without the required authorization should still be rejected by the backend.
+A user should not be able to bypass authorization simply by manually calling an API endpoint.
 
-Real-Time Collaboration
+Authorization is enforced by the backend.
 
-Tevli uses Socket.IO for collaborative synchronization.
+---
 
-Project-specific rooms are used so that users receive events relevant to projects they are currently viewing.
+# 🛡️ Security
 
-Example Events
-Task created
-Task updated
-Task moved
-Task deleted
-Comment created
-Comment updated
-Comment deleted
-Activity created
-Notification updates
-Real-Time Design
+Tevli already includes several security-oriented protections:
 
-The backend performs the actual database mutation first.
+* HTTP-only authentication cookies
+* JWT authentication
+* bcrypt password hashing
+* CSRF protection
+* CORS configuration
+* Helmet security headers
+* Rate limiting
+* Zod request validation
+* Workspace authorization
+* Project authorization
+* Resource-level authorization
+* Socket.IO authentication
+* Project-room authorization
+* Notification target authorization
+* Protected destructive operations
+* Secrets excluded from Git
 
-After a successful mutation, the appropriate real-time event is emitted.
+A dedicated security-hardening phase will be performed before public production deployment.
 
-This prevents Socket.IO state from becoming an independent source of truth.
+---
 
-Security
+# 🧪 Testing & Quality Assurance
 
-Security is treated as an important part of the application's architecture.
+Tevli has gone through both static and runtime validation.
 
-Current protections include:
+## Static regression audit
 
-HTTP-only authentication cookies
-JWT-based sessions
-bcrypt password hashing
-CSRF protection
-CORS configuration
-Helmet security headers
-API rate limiting
-Zod request validation
-Workspace-level authorization
-Project-level authorization
-Resource-level access checks
-Socket.IO authentication
-Project-room authorization
-Notification target authorization
-Secure destructive-operation confirmation
-Environment secrets excluded from Git
+The codebase was reviewed for:
 
-A dedicated security-hardening review is part of the final release process before public production deployment.
+* broken routes
+* API mismatches
+* authorization problems
+* persistence issues
+* real-time synchronization issues
+* dead handlers
+* incomplete functionality
+* loading/error-state problems
 
-Project Structure
+## Black-box browser QA
+
+The running application was tested across:
+
+* Authentication
+* Navigation
+* Workspaces
+* Workspace Settings
+* Workspace Members
+* Projects
+* Project Settings
+* Project Members
+* Kanban / Tasks
+* Comments
+* Activity
+* Notifications
+* Account Settings
+* Recent
+* Starred
+* Global Create
+* Help
+* Deep links
+* Responsive layouts
+* Two-user collaboration
+
+### QA status
+
+```text
+P0 Critical Issues    0
+P1 Major Issues      0
+P2 Issues            0
+```
+
+---
+
+# 🧰 Tech Stack
+
+## Frontend
+
+| Technology     | Purpose                  |
+| -------------- | ------------------------ |
+| React          | UI framework             |
+| TypeScript     | Type safety              |
+| Vite           | Frontend tooling         |
+| Tailwind CSS   | Styling                  |
+| React Router   | Routing                  |
+| TanStack Query | Server state and caching |
+
+## Backend
+
+| Technology | Purpose                 |
+| ---------- | ----------------------- |
+| Node.js    | Runtime                 |
+| Express    | REST API                |
+| TypeScript | Type safety             |
+| Socket.IO  | Real-time communication |
+| Zod        | Validation              |
+| bcrypt     | Password hashing        |
+| JWT        | Authentication          |
+
+## Database
+
+| Technology | Purpose                 |
+| ---------- | ----------------------- |
+| PostgreSQL | Relational database     |
+| Prisma     | ORM and database access |
+
+## Testing
+
+| Technology                    | Purpose         |
+| ----------------------------- | --------------- |
+| Vitest                        | Backend testing |
+| Vitest Mock Extended          | Mocking         |
+| Playwright/browser automation | Black-box QA    |
+
+---
+
+# 📂 Project Structure
+
+```text
 Tevli/
 │
 ├── frontend/
@@ -442,7 +659,6 @@ Tevli/
 │   │   ├── hooks/
 │   │   ├── pages/
 │   │   └── ...
-│   │
 │   └── package.json
 │
 ├── backend/
@@ -462,311 +678,360 @@ Tevli/
 ├── .gitignore
 ├── package.json
 └── README.md
+```
 
-The internal directory structure may evolve as Tevli continues to develop.
+---
 
-Getting Started
-Prerequisites
+# 🚀 Getting Started
 
-Make sure the following are installed:
+## Prerequisites
 
-Node.js
-npm
-PostgreSQL
-Clone the Repository
+Install:
+
+* Node.js
+* npm
+* PostgreSQL
+* Git
+
+---
+
+## 1. Clone the repository
+
+```bash
 git clone https://github.com/Premanshukusre/Tevli.git
 cd Tevli
-Install Dependencies
+```
 
-Install the project dependencies according to the root/frontend/backend package configuration.
+---
 
+## 2. Install dependencies
+
+Install dependencies according to the project's root, frontend, and backend package configuration.
+
+```bash
+npm install
+```
+
+If required by the package structure, install dependencies inside:
+
+```bash
+cd frontend
 npm install
 
-If the project setup requires separate installation inside frontend or backend, install dependencies there as well.
+cd ../backend
+npm install
+```
 
-Environment Variables
+---
 
-Tevli uses environment variables for configuration and secrets.
+# 🔑 Environment Variables
 
-Do not commit real .env files.
+Tevli uses environment variables for sensitive configuration.
 
-Typical configuration includes values for:
+Typical values include:
 
-DATABASE_URL
-JWT_SECRET
+```env
+DATABASE_URL=your_postgresql_connection_string
+JWT_SECRET=your_secure_jwt_secret
+```
 
-Additional environment variables may be required depending on the deployment environment.
+Additional variables may be required depending on the environment.
 
-Use the example environment files provided by the project when available.
+### Never commit:
 
-Important
-
-Never commit:
-
+```text
 .env
 .env.local
 backend/.env
 frontend/.env
+```
 
-Secrets must remain outside version control.
+Use `.env.example` files for documenting configuration without exposing secrets.
 
-Database Setup
+---
+
+# 🗄️ Database Setup
 
 Tevli uses PostgreSQL with Prisma.
 
-Create a PostgreSQL database and configure the DATABASE_URL.
+Create a PostgreSQL database and configure:
 
-Then synchronize the schema:
+```env
+DATABASE_URL=...
+```
 
+Then:
+
+```bash
 cd backend
 npx prisma db push
+```
 
-Generate the Prisma client when needed:
+Generate the Prisma client:
 
+```bash
 npx prisma generate
-Running the Application
-Start the Backend
+```
+
+---
+
+# ▶️ Run Tevli Locally
+
+## Start the backend
 
 From the project root:
 
+```bash
 npm run dev:backend
+```
 
-The backend runs locally on:
+Backend:
 
+```text
 http://localhost:5000
-Start the Frontend
+```
 
-In a separate terminal:
+## Start the frontend
 
+In another terminal:
+
+```bash
 npm run dev:frontend
+```
 
-The frontend runs locally on:
+Frontend:
 
+```text
 http://localhost:5173
+```
 
-Open the frontend URL in your browser.
+Open:
 
-Testing
+```text
+http://localhost:5173
+```
 
-The backend uses Vitest.
+---
+
+# 🧪 Run Tests
 
 From the backend directory:
 
+```bash
 npm test
+```
 
-The test suite covers important areas such as:
+The test suite covers critical areas such as:
 
-authentication
-authorization
-task operations
-project operations
-workspace operations
-membership behavior
-notification behavior
-real-time-related backend logic
-Production Build
+* Authentication
+* Authorization
+* Workspace operations
+* Project operations
+* Task operations
+* Membership operations
+* Notifications
+* Collaboration-related backend behavior
 
-Build the frontend with:
+---
 
+# 📦 Production Build
+
+Build the frontend:
+
+```bash
 npm run --prefix frontend build
+```
 
-The production build should complete without TypeScript or bundling errors before release.
+The build should complete successfully before deployment.
 
-Quality Assurance
+---
 
-Tevli has gone through multiple levels of verification.
+# 📈 Current Project Status
 
-Static Regression Audit
+## V1.1 — Complete ✅
 
-The codebase was inspected for:
+| Area                    | Status |
+| ----------------------- | ------ |
+| Authentication          | ✅      |
+| Workspaces              | ✅      |
+| Workspace Members       | ✅      |
+| Workspace Settings      | ✅      |
+| Projects                | ✅      |
+| Project Members         | ✅      |
+| Project Settings        | ✅      |
+| Kanban / Tasks          | ✅      |
+| Task Assignment         | ✅      |
+| Due Dates               | ✅      |
+| Comments                | ✅      |
+| Activity / History      | ✅      |
+| Real-Time Collaboration | ✅      |
+| Notifications           | ✅      |
+| Notification Deep Links | ✅      |
+| Account Settings        | ✅      |
+| Recent                  | ✅      |
+| Starred                 | ✅      |
+| Global Create           | ✅      |
+| Workspace Creation      | ✅      |
+| Project Creation        | ✅      |
+| Help                    | ✅      |
+| Responsive UI           | ✅      |
+| Static QA               | ✅      |
+| Browser QA              | ✅      |
+| GitHub Baseline         | ✅      |
 
-broken routes
-API contract mismatches
-authorization issues
-persistence problems
-real-time synchronization issues
-dead handlers
-incomplete features
-loading/error-state issues
-Black-Box Browser QA
+---
 
-The running application was tested across:
+# ⚠️ Known Limitation
 
-Authentication
-Navigation
-Workspaces
-Workspace settings
-Workspace members
-Projects
-Project settings
-Project members
-Kanban/task workflows
-Comments
-Activity
-Notifications
-Account settings
-Recent
-Starred
-Global Create
-Help
-Deep links
-Responsive layouts
-Two-user collaboration
-QA Result
+## Global Search
 
-The V1.1 baseline reached:
+The current V1.1 global search supports:
 
-P0 Critical Issues   : 0
-P1 Major Issues      : 0
-P2 Issues            : 0
+* Workspace search
+* Project search
 
-A task-search limitation remains intentionally outside the V1.1 scope.
+Task-level search is intentionally outside the V1.1 scope.
 
-Current Status
-Tevli V1.1 — Complete
-Authentication             ✅
-Workspaces                 ✅
-Workspace Members          ✅
-Workspace Settings         ✅
-Projects                   ✅
-Project Members            ✅
-Project Settings           ✅
-Kanban / Tasks             ✅
-Task Assignment            ✅
-Due Dates                  ✅
-Comments                   ✅
-Activity / History         ✅
-Real-Time Collaboration    ✅
-Notifications              ✅
-Notification Deep Links    ✅
-Account Settings           ✅
-Recent                     ✅
-Starred                    ✅
-Global Create              ✅
-Workspace Creation         ✅
-Project Creation           ✅
-Help                       ✅
-Responsive UI              ✅
-Static QA                  ✅
-Black-Box Browser QA       ✅
-GitHub Baseline            ✅
+This is an accepted product limitation rather than a broken feature.
 
-Current GitHub repository:
+---
 
-https://github.com/Premanshukusre/Tevli
+# 🛣️ Roadmap
 
-Known Limitation
-Global Search
+## V1.1 — Current
 
-The current V1.1 search experience indexes:
+✅ Collaborative project management
+✅ Real-time updates
+✅ Workspace management
+✅ Project management
+✅ Kanban tasks
+✅ Comments
+✅ Activity
+✅ Notifications
+✅ Account Settings
+✅ Recent & Starred
+✅ Responsive interface
+✅ QA validation
 
-Workspaces
-Projects
+## Future Enhancements
 
-Task-level search is intentionally not included in the V1.1 search scope.
+Potential future additions include:
 
-This is an accepted product limitation, not a broken feature.
-
-Roadmap
-V1.1
-Core project management
-Real-time collaboration
-Workspace/project administration
-Kanban task management
-Comments and activity
-Notifications
-Recent and Starred
-Account Settings
-Responsive UI
-Initial security baseline
-Comprehensive QA
-Future Improvements
-
-Potential future enhancements include:
-
-Task-level global search
-Labels
-Subtasks
-List view
-Calendar view
-Attachments
-Templates
-Project duplication
-Timeline/Gantt view
-Automation
-Advanced reporting
-Third-party integrations
-Richer permission systems
-AI-assisted project workflows
+* 🔎 Task-level global search
+* 🏷️ Labels
+* ✅ Subtasks
+* 📑 List view
+* 📅 Calendar view
+* 📎 Attachments
+* 📋 Project templates
+* 📑 Project duplication
+* 📊 Timeline / Gantt
+* ⚙️ Automations
+* 📈 Advanced reporting
+* 🔌 Third-party integrations
+* 🔐 Advanced permission controls
+* 🤖 AI-assisted project workflows
 
 These features are intentionally outside the current V1.1 scope.
 
-Engineering Principles
-REST as the Source of Truth
+---
 
-All persistent operations are performed through the backend API and database.
+# 🧠 Engineering Principles
 
-Real-Time as Synchronization
+## 1. REST is the source of truth
 
-Socket.IO is used to distribute successful state changes to connected clients.
+Persistent state lives in the backend and PostgreSQL.
 
-Server-Side Authorization
+## 2. Socket.IO is the synchronization layer
 
-Security decisions are enforced by the backend rather than relying on UI restrictions.
+Real-time events inform connected clients about successful backend mutations.
 
-Explicit, Real Functionality
+## 3. Authorization belongs on the server
 
-Visible product controls should correspond to actual implemented behavior rather than simulated actions.
+Frontend restrictions improve UX, but backend authorization is the actual security boundary.
 
-Multi-User First
+## 4. Real functionality over visual placeholders
 
-The system is designed to support multiple collaborators rather than being limited to a two-user workflow.
+Visible actions should correspond to real application behavior.
 
-Maintainable Architecture
+## 5. Multi-user by design
 
-Tevli uses a modular monolith architecture to keep the system understandable while still providing clear separation between frontend, API, business logic, database access, and real-time communication.
+Tevli is structured around real team collaboration rather than a two-user-only implementation.
 
-Why Tevli?
+## 6. Keep the architecture understandable
 
-Tevli was built as a full-stack engineering project focused on the practical challenges of building a collaborative SaaS-style application.
+The modular monolith approach keeps frontend, backend, database, and real-time communication clearly separated without unnecessary distributed-system complexity.
 
-The project demonstrates experience with:
+---
 
-React and TypeScript
-REST API design
-PostgreSQL data modeling
-Prisma ORM
+# 💡 Why Tevli?
+
+Tevli was built to explore the engineering challenges behind a modern collaborative SaaS application.
+
+The project demonstrates practical experience with:
+
+* React + TypeScript
+* REST API architecture
+* PostgreSQL data modeling
+* Prisma ORM
+* Authentication
+* Authorization
+* Session security
+* Real-time communication
+* Socket.IO rooms
+* Server-state caching
+* Multi-user collaboration
+* Responsive UI engineering
+* Error handling
+* Automated testing
+* Browser-based QA
+* Git and version control
+
+The goal was not simply to build a Kanban board.
+
+The goal was to understand how the major pieces of a collaborative web product work together:
+
+```text
 Authentication
+      +
 Authorization
-Secure session handling
-Real-time communication
-WebSocket room management
-Client-side caching
-Multi-user collaboration
-Error and loading states
-Responsive UI design
-Automated testing
-Browser QA
-Git-based development workflow
+      +
+Database
+      +
+REST APIs
+      +
+Real-Time Events
+      +
+Client State
+      +
+Responsive UI
+      =
+Collaborative Product
+```
 
-The goal was to build more than a simple Kanban board and instead understand how the systems required by a modern collaborative product work together.
+---
 
-Author
-Premanshu Kusre
+# 👨‍💻 Author
+
+## Premanshu Kusre
 
 GitHub:
 
-https://github.com/Premanshukusre
+**[https://github.com/Premanshukusre](https://github.com/Premanshukusre)**
 
-Tevli:
+Project Repository:
 
-https://github.com/Premanshukusre/Tevli
+**[https://github.com/Premanshukusre/Tevli](https://github.com/Premanshukusre/Tevli)**
 
-License
+---
 
-No open-source license has currently been declared for this repository.
+# 📄 License
 
-If the project is later released under an open-source license, this section will be updated accordingly.
+No open-source license has currently been declared for Tevli.
+
+---
 
 
-One thing I deliberately kept out is **deployment instructions and claims about production hosting**, because Te
+This version is intentionally structured around **visual hierarchy + easy scanning**: project identity first, then what it does, how it works, security, setup, QA, current status, and roadmap. It also stays aligned with the content already in your current README rather than inventing new capabilities. 
+
+One note: the README currently claims “V1.1 — Complete” and “P2 Issues: 0,” which matches the state you reported after fixing BUG-003. It also preserves the accepted global-search limitation. 
