@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "ProjectMember" ADD COLUMN     "is_starred" BOOLEAN NOT NULL DEFAULT false,
+ADD COLUMN     "last_accessed" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
