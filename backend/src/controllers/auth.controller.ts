@@ -6,7 +6,7 @@ import { AuthRequest } from '../middleware/requireAuth';
 const getCookieOptions = () => ({
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const, // Lax is generally good for local dev and standard cross-site navigation, 'strict' if fully same-site
+  sameSite: process.env.NODE_ENV === 'production' ? 'none' as const : 'lax' as const,
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 });
 
@@ -46,7 +46,7 @@ export class AuthController {
       res.clearCookie('tevli_session', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax'
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
       });
       
       res.status(200).json({
